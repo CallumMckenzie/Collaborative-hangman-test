@@ -9,6 +9,7 @@ def Play_mode(play, difficulty):
     lives_options = [10, 6, 3, 10]
     lives = lives_options[difficulty]
     unfinished_answer = []
+    guesslist = []
     # draw a word from a text file
     with open('words.txt') as word_file:
         words = word_file.readline()
@@ -33,14 +34,17 @@ def Play_mode(play, difficulty):
         else:
             if guess in answer:
                 for indicies in range (len(answer)):
-                    if guess == letters:
-
+                    if guess == answer(indicies):
+                        unfinished_answer[answer.index(indices)] = guess
                 #this will add the guess to the unfinished answer
                 unfinished_answer[answer.index(guess)] = guess
                 print(unfinished_answer)
             else:
                 guesses += 1
                 lives -= 1
+                print("you are incorrect")
+                guesslist.append(guess)
+                print(guesslist)
 # test comment
 def menu():
     """ This function will allow the user to decide if they want to
