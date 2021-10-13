@@ -28,9 +28,13 @@ def Play_mode(play, difficulty):
             else:
                 guesses += 1
                 lives -= 1
+                print("That is incorrect")
             if difficulty == 'test': print(answer)
         else:
             if guess in answer:
+                for indicies in range (len(answer)):
+                    if guess == letters:
+
                 #this will add the guess to the unfinished answer
                 unfinished_answer[answer.index(guess)] = guess
                 print(unfinished_answer)
