@@ -33,9 +33,9 @@ def Play_mode(play, difficulty):
             if difficulty == 'test': print(answer)
         else:
             if guess in answer:
-                for indicies in range (len(answer)):
-                    if guess == answer(indicies):
-                        unfinished_answer[answer.index(indices)] = guess
+                for indices in range(len(answer)):
+                    if guess == answer[indices]:
+                        unfinished_answer[indices] = guess
                 #this will add the guess to the unfinished answer
                 unfinished_answer[answer.index(guess)] = guess
                 print(unfinished_answer)
