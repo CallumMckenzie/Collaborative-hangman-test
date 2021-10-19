@@ -19,6 +19,7 @@ def Play_mode(play, difficulty):
         for letters in answer: unfinished_answer.append('_')
     while play is True and lives >= 1:
         guess = input("Please enter a single alphabetical character or a complete answer")
+        guesses += 1
         if guess.isalpha() is False:
             print("Error, you must enter a alphabetical character")
         # this handles full word guesses
@@ -26,13 +27,15 @@ def Play_mode(play, difficulty):
             if guess == answer:
                 print('You guessed the correct word, you win! \n your stats are lives = ' + str(lives) + ',\
                  guesses = ' + str(guesses))
+                play = False
             else:
-                guesses += 1
                 lives -= 1
                 print("That is incorrect")
-            if difficulty == 'test': print(answer)
+            if difficulty == 3: print(answer)
         else:
             if guess in answer:
+                if difficulty == 3:
+                    print(answer)
                 for indices in range(len(answer)):
                     if guess == answer[indices]:
                         unfinished_answer[indices] = guess
@@ -41,14 +44,20 @@ def Play_mode(play, difficulty):
                 print(unfinished_answer)
 
             else:
-                if difficulty == "test": print(answer)
-                guesses += 1
+                if difficulty == 3:
+                    print(answer)
                 lives -= 1
                 print("you are incorrect")
                 print("you have " + str(lives) + " remaining")
                 guesslist.append(guess)
                 print(guesslist)
                 print(unfinished_answer)
+        if lives == 0:
+            print("You have run out of lives, you lose")
+            print('guesses: ' + guesses)
+            print('your guesses: ' + guesslist)
+            print('answer: ' + answer)
+
 # test comment
 def menu():
     """ This function will allow the user to decide if they want to
