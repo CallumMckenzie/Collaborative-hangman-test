@@ -18,7 +18,7 @@ def Play_mode(play, difficulty):
         answer = word_list[rand_index]
         for letters in answer: unfinished_answer.append('_')
     while play is True and lives >= 1:
-        guess = input("Please enter a single alphabetical character")
+        guess = input("Please enter a single alphabetical character or a complete answer")
         if guess.isalpha() is False:
             print("Error, you must enter a alphabetical character")
         # this handles full word guesses
@@ -39,12 +39,16 @@ def Play_mode(play, difficulty):
                 #this will add the guess to the unfinished answer
                 unfinished_answer[answer.index(guess)] = guess
                 print(unfinished_answer)
+
             else:
+                if difficulty == "test": print(answer)
                 guesses += 1
                 lives -= 1
                 print("you are incorrect")
+                print("you have " + str(lives) + " remaining")
                 guesslist.append(guess)
                 print(guesslist)
+                print(unfinished_answer)
 # test comment
 def menu():
     """ This function will allow the user to decide if they want to
