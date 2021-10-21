@@ -72,15 +72,17 @@ def menu():
         menu_choice = input("Would you like to play a round? y/n")
         if menu_choice.isalpha() is True:
             if menu_choice.lower() == "y":
-                difficulty = ['easy', 'medium', 'hard', 'test']
-                lives_options = [10, 6, 3, 10]
+                difficulties = {'easy': 10, 'medium': 6, 'hard': 3, 'test': 10}
                 # add a lives choice here later
                 dif_menu_done = False
                 while dif_menu_done is False:
-                    # maybe use a list instead of a cascade
                     difficulty_input = input("what difficulty would you like to play on? easy, medium, hard or test?")
-                    if difficulty_input in difficulty:
-                        lives = lives_options[difficulty.index(difficulty_input)]
+                    # this if ensures the user entered a valid difficulty option
+                    if difficulty_input in difficulties.keys():
+                        # this chooses the number of lives from the lives_options list based
+                        # on the index of the entered difficulty of the difficulty list
+                        # I should replace both the lists with a single dictionary
+                        lives = difficulties[difficulty_input]
                         dif_menu_done = True
                     else:
                         print("Please select one of the available options")
