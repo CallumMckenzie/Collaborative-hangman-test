@@ -4,11 +4,9 @@ import random
 # we will need access to a dictionary where we can pull words from
 
 
-def play_mode(play, difficulty):
+def play_mode(play, lives, difficulty_input):
     # initialisation
     guesses = 0
-    lives_options = [10, 6, 3, 10]
-    lives = lives_options[difficulty]
     unfinished_answer = []
     guesslist = []
     # draw a word from a text file
@@ -35,12 +33,12 @@ def play_mode(play, difficulty):
                 lives -= 1
                 print("That is incorrect")
             # test mode answer output
-            if difficulty == 3: print('test result = ' + answer)
+            if difficulty_input == "test": print('test result = ' + answer)
         # single letter guesses
         else:
             if guess in answer:
                 # test difficulty output
-                if difficulty == 3:
+                if difficulty_input == 'test':
                     print(answer)
                 for indices in range(len(answer)):
                     if guess == answer[indices]:
@@ -50,7 +48,7 @@ def play_mode(play, difficulty):
                 print(unfinished_answer)
 
             else:
-                if difficulty == 3:
+                if difficulty_input == "test":
                     print(answer)
                 lives -= 1
                 print("you are incorrect")
@@ -74,30 +72,23 @@ def menu():
         menu_choice = input("Would you like to play a round? y/n")
         if menu_choice.isalpha() is True:
             if menu_choice.lower() == "y":
+                difficulty = ['easy', 'medium', 'hard', 'test']
+                lives_options = [10, 6, 3, 10]
                 # add a lives choice here later
                 dif_menu_done = False
                 while dif_menu_done is False:
                     # maybe use a list instead of a cascade
-                    difficulty_check = input("what difficulty would you like to play on? easy, medium, hard or test?")
-                    if difficulty_check == "easy":
-                        difficulty = 0
-                        dif_menu_done = True
-                    elif difficulty_check == "medium":
-                        difficulty = 1
-                        dif_menu_done = True
-                    elif difficulty_check == "hard":
-                        difficulty = 2
-                        dif_menu_done = True
-                    elif difficulty_check == "test":
-                        difficulty = 3
+                    difficulty_input = input("what difficulty would you like to play on? easy, medium, hard or test?")
+                    if difficulty_input in difficulty:
+                        lives = lives_options[difficulty.index(difficulty_input)]
                         dif_menu_done = True
                     else:
                         print("Please select one of the available options")
                 play = True
-                play_mode(play, difficulty)
+                play_mode(play, lives, difficulty_input)
                 menu_active = False
             elif menu_choice.lower() == "n":
-                exit(1) # successful exit code
+                exit(1)  # successful exit code
             else:
                 print("please enter either \"y\" or \"n\"")
 
