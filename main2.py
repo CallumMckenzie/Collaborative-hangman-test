@@ -3,7 +3,8 @@ import random
 # there needs to be a function with a while loop for each round
 # we will need access to a dictionary where we can pull words from
 
-def Play_mode(play, difficulty):
+
+def play_mode(play, difficulty):
     # initialisation
     guesses = 0
     lives_options = [10, 6, 3, 10]
@@ -24,22 +25,27 @@ def Play_mode(play, difficulty):
             print("Error, you must enter a alphabetical character")
         # this handles full word guesses
         elif len(guess) > 1:
+            # correct full word guess
             if guess == answer:
-                print('You guessed the correct word, you win! \n your stats are lives = ' + str(lives) + ',\
-                 guesses = ' + str(guesses))
+                print('You guessed the correct word, you win! \n your stats are \n lives = ' + str(lives) + ',\
+                 \n guesses = ' + str(guesses) + '\n The answer was: ' + answer)
                 play = False
+            # incorrect full word guess
             else:
                 lives -= 1
                 print("That is incorrect")
-            if difficulty == 3: print(answer)
+            # test mode answer output
+            if difficulty == 3: print('test result = ' + answer)
+        # single letter guesses
         else:
             if guess in answer:
+                # test difficulty output
                 if difficulty == 3:
                     print(answer)
                 for indices in range(len(answer)):
                     if guess == answer[indices]:
                         unfinished_answer[indices] = guess
-                #this will add the guess to the unfinished answer
+                # this will add the guess to the unfinished answer
                 unfinished_answer[answer.index(guess)] = guess
                 print(unfinished_answer)
 
@@ -88,7 +94,7 @@ def menu():
                     else:
                         print("Please select one of the available options")
                 play = True
-                Play_mode(play, difficulty)
+                play_mode(play, difficulty)
                 menu_active = False
             elif menu_choice.lower() == "n":
                 exit(1) # successful exit code
