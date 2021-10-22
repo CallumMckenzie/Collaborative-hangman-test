@@ -19,6 +19,7 @@ def play_mode(play, lives, difficulty_input):
     while play is True and lives >= 1:
         guess = input("Please enter a single alphabetical character or a complete answer")
         guesses += 1
+        guesslist.append(guess)
         if guess.isalpha() is False:
             print("Error, you must enter a alphabetical character")
         # this handles full word guesses
@@ -36,7 +37,7 @@ def play_mode(play, lives, difficulty_input):
             if difficulty_input == "test": print('test result = ' + answer)
         # single letter guesses
         else:
-            if guess in answer:
+            if guess in answer and guess not in unfinished_answer:
                 # test difficulty output
                 if difficulty_input == 'test':
                     print(answer)
@@ -46,20 +47,24 @@ def play_mode(play, lives, difficulty_input):
                 # this will add the guess to the unfinished answer
                 unfinished_answer[answer.index(guess)] = guess
                 print(unfinished_answer)
-
+            # this needs to check the partially made answer for the guess
+            elif guess in unfinished_answer:
+                print("you have already guessed that letter")
+                lives -= 1
+                print("lives: " + str(lives))
+                print("guesses: " + str(guesses))
             else:
                 if difficulty_input == "test":
                     print(answer)
                 lives -= 1
                 print("you are incorrect")
                 print("you have " + str(lives) + " remaining")
-                guesslist.append(guess)
                 print(guesslist)
                 print(unfinished_answer)
         if lives == 0:
             print("You have run out of lives, you lose")
-            print('guesses: ' + guesses)
-            print('your guesses: ' + guesslist)
+            print('guesses: ' + str(guesses))
+            print('your guesses: ' + str(guesslist))
             print('answer: ' + answer)
 
 # test comment
