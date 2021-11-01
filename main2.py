@@ -12,44 +12,34 @@ def openfile():
         for letters in answer:
             unfinished_answer.append('_')
         return unfinished_answer, answer
+
 def play_mode(play, lives, difficulty_input):
     # initialisation
     guesses = 0
-    guesslist = []
+    guess_list = []
     # draw a word from a text file
     unfinished_answer, answer = openfile()
     while play is True and lives >= 1:
         guess = input("Please enter a single alphabetical character or a complete answer")
         guesses += 1
-        guesslist.append(guess)
+        guess_list.append(guess)
         if guess.isalpha() is False:
             print("Error, you must enter a alphabetical character")
         # this handles full word guesses
         elif len(guess) > 1:
-            # correct full word guess
-            if guess == answer:
-                print('You guessed the correct word, you win! \n your stats are \n lives = ' + str(lives) + ',\
-                 \n guesses = ' + str(guesses) + '\n The answer was: ' + answer)
-                play = False
-            # incorrect full word guess
-            else:
-                guesslist.append(guess)
-                lives -= 1
-                print("That is incorrect")
-            # test mode answer output
-            if difficulty_input == "test": print('test result = ' + answer)
+            full_answer(answer, guess, guesses, guess_list, lives, difficulty_input)
         # single letter guesses
         else:
             if guess in answer and guess not in unfinished_answer:
-                print(guesslist)
+                print(guess_list)
                 # test difficulty output
                 if difficulty_input == 'test':
                     print(answer)
                 for indices in range(len(answer)):
                     if guess == answer[indices]:
                         unfinished_answer[indices] = guess
-                        guesslist.append(guess)
-                        print("guess list: " + str(guesslist))
+                        guess_list.append(guess)
+                        print("guess list: " + str(guess_list))
                 # this will add the guess to the unfinished answer
                 unfinished_answer[answer.index(guess)] = guess
                 print(unfinished_answer)
@@ -65,13 +55,30 @@ def play_mode(play, lives, difficulty_input):
                 lives -= 1
                 print("you are incorrect")
                 print("you have " + str(lives) + " remaining")
-                print(guesslist)
+                print(guess_list)
                 print(unfinished_answer)
         if lives == 0:
             print("You have run out of lives, you lose")
             print('guesses: ' + str(guesses))
-            print('your guesses: ' + str(guesslist))
+            print('your guesses: ' + str(guess_list))
             print('answer: ' + answer)
+
+
+def full_answer(answer, guess, guesses, guess_list, lives, difficulty_input):
+    # correct full word guess
+    if guess == answer:
+        print('You guessed the correct word, you win! \n your stats are \n lives = ' + str(lives) + ',\
+                    \n guesses = ' + str(guesses) + '\n The answer was: ' + answer)
+        play = False
+    # incorrect full word guess
+    else:
+        guess_list.append(guess)
+        lives -= 1
+        print("That is incorrect")
+    # test mode answer output
+    if difficulty_input == "test": print('test result = ' + answer)
+
+
 
 # test comment
 def menu():
