@@ -3,19 +3,21 @@ import random
 # there needs to be a function with a while loop for each round
 # we will need access to a dictionary where we can pull words from
 
-
+def openfile():
+    unfinished_answer = []
+    with open('words.txt') as word_file:
+        word_list = (word_file.readline()).split(',')
+        rand_index = random.randint(0, len(word_list) - 1)
+        answer = word_list[rand_index]
+        for letters in answer:
+            unfinished_answer.append('_')
+        return unfinished_answer
 def play_mode(play, lives, difficulty_input):
     # initialisation
     guesses = 0
-    unfinished_answer = []
     guesslist = []
     # draw a word from a text file
-    with open('words.txt') as word_file:
-        words = word_file.readline()
-        word_list = words.split(',')
-        rand_index = random.randint(0, len(word_list) - 1)
-        answer = word_list[rand_index]
-        for letters in answer: unfinished_answer.append('_')
+    openfile()
     while play is True and lives >= 1:
         guess = input("Please enter a single alphabetical character or a complete answer")
         guesses += 1
@@ -31,6 +33,7 @@ def play_mode(play, lives, difficulty_input):
                 play = False
             # incorrect full word guess
             else:
+                guesslist.append(guess)
                 lives -= 1
                 print("That is incorrect")
             # test mode answer output
@@ -38,12 +41,15 @@ def play_mode(play, lives, difficulty_input):
         # single letter guesses
         else:
             if guess in answer and guess not in unfinished_answer:
+                print(guesslist)
                 # test difficulty output
                 if difficulty_input == 'test':
                     print(answer)
                 for indices in range(len(answer)):
                     if guess == answer[indices]:
                         unfinished_answer[indices] = guess
+                        guesslist.append(guess)
+                        print("guess list: " + str(guesslist))
                 # this will add the guess to the unfinished answer
                 unfinished_answer[answer.index(guess)] = guess
                 print(unfinished_answer)
@@ -74,7 +80,7 @@ def menu():
     menu_active = True
     while menu_active is True:
         print("Welcome to hangman, a game by ben and callum")
-        menu_choice = input("Would you like to play a round? y/n")
+        menu_choice = (input("Would you like to play a round? y/n")).strip()
         if menu_choice.isalpha() is True:
             if menu_choice.lower() == "y":
                 difficulties = {'easy': 10, 'medium': 6, 'hard': 3, 'test': 10}
