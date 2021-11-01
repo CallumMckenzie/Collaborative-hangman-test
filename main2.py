@@ -11,13 +11,13 @@ def openfile():
         answer = word_list[rand_index]
         for letters in answer:
             unfinished_answer.append('_')
-        return unfinished_answer
+        return unfinished_answer, answer
 def play_mode(play, lives, difficulty_input):
     # initialisation
     guesses = 0
     guesslist = []
     # draw a word from a text file
-    openfile()
+    unfinished_answer, answer = openfile()
     while play is True and lives >= 1:
         guess = input("Please enter a single alphabetical character or a complete answer")
         guesses += 1
