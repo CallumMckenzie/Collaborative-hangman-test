@@ -11,14 +11,14 @@ def openfile():
         answer = word_list[rand_index]
         for letters in answer:
             unfinished_answer.append('_')
-        return unfinished_answer, answer
+        return answer, unfinished_answer
 
 def play_mode(play, lives, difficulty_input):
     # initialisation
     guesses = 0
     guess_list = []
     # draw a word from a text file
-    unfinished_answer, answer = openfile()
+    answer, unfinished_answer = openfile()
     while play is True and lives >= 1:
         guess = input("Please enter a single alphabetical character or a complete answer")
         guesses += 1
@@ -30,55 +30,60 @@ def play_mode(play, lives, difficulty_input):
             full_answer(answer, guess, guesses, guess_list, lives, difficulty_input)
         # single letter guesses
         else:
-            if guess in answer and guess not in unfinished_answer:
-                print(guess_list)
-                # test difficulty output
-                if difficulty_input == 'test':
-                    print(answer)
-                for indices in range(len(answer)):
-                    if guess == answer[indices]:
-                        unfinished_answer[indices] = guess
-                        guess_list.append(guess)
-                        print("guess list: " + str(guess_list))
-                # this will add the guess to the unfinished answer
-                unfinished_answer[answer.index(guess)] = guess
-                print(unfinished_answer)
-            # this needs to check the partially made answer for the guess
-            elif guess in unfinished_answer:
-                print("you have already guessed that letter")
-                lives -= 1
-                print("lives: " + str(lives))
-                print("guesses: " + str(guesses))
-            else:
-                if difficulty_input == "test":
-                    print(answer)
-                lives -= 1
-                print("you are incorrect")
-                print("you have " + str(lives) + " remaining")
-                print(guess_list)
-                print(unfinished_answer)
-        if lives == 0:
-            print("You have run out of lives, you lose")
-            print('guesses: ' + str(guesses))
-            print('your guesses: ' + str(guess_list))
-            print('answer: ' + answer)
+            partial_answer(guess, answer, unfinished_answer, guess_list, difficulty_input, lives, guesses)
 
 
 def full_answer(answer, guess, guesses, guess_list, lives, difficulty_input):
+    if difficulty_input == 'test':
+        print('test result = ' + str(answer))
     # correct full word guess
-    if guess == answer:
+    if guess == str(answer):
         print('You guessed the correct word, you win! \n your stats are \n lives = ' + str(lives) + ',\
                     \n guesses = ' + str(guesses) + '\n The answer was: ' + answer)
         play = False
+        return play
     # incorrect full word guess
     else:
         guess_list.append(guess)
         lives -= 1
         print("That is incorrect")
+        return guess_list, lives
     # test mode answer output
-    if difficulty_input == "test": print('test result = ' + answer)
 
 
+def partial_answer(guess, answer, unfinished_answer, guess_list, difficulty_input, lives, guesses):
+    if guess in answer and guess not in unfinished_answer:
+        print(guess_list)
+        # test difficulty output
+        if difficulty_input == 'test':
+            print(answer)
+        for indices in range(len(answer)):
+            if guess == answer[indices]:
+                unfinished_answer[indices] = guess
+                guess_list.append(guess)
+                print("guess list: " + str(guess_list))
+        # this will add the guess to the unfinished answer
+        unfinished_answer[answer.index(guess)] = guess
+        print(unfinished_answer)
+    # this needs to check the partially made answer for the guess
+    elif guess in unfinished_answer:
+        print("you have already guessed that letter")
+        lives -= 1
+        print("lives: " + str(lives))
+        print("guesses: " + str(guesses))
+    else:
+        if difficulty_input == "test":
+            print(answer)
+        lives -= 1
+        print("you are incorrect")
+        print("you have " + str(lives) + " remaining")
+        print(guess_list)
+        print(unfinished_answer)
+    if lives == 0:
+        print("You have run out of lives, you lose")
+        print('guesses: ' + str(guesses))
+        print('your guesses: ' + str(guess_list))
+        print('answer: ' + answer)
 
 # test comment
 def menu():
